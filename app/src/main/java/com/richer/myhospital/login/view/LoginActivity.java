@@ -4,34 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.richer.myhospital.Constant;
 import com.richer.myhospital.R;
 import com.richer.myhospital.home.Home;
 import com.richer.myhospital.login.model.User;
 import com.richer.myhospital.login.presenter.LoginPresenter;
-import com.richer.myhospital.net.HttpRequest;
 import com.richer.myhospital.net.NetWork;
-import com.richer.myhospital.net.ResponseBody;
 import com.richer.myhospital.register.view.RegisterActivity;
-import com.richer.myhospital.util.BmobUtil;
 import com.richer.myhospital.util.ToastUtil;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import static com.richer.myhospital.Constant.NET_SHOW;
+import static com.richer.myhospital.Constant.NET_TEST;
 
 /**
  * 2021/04/14 Richer
@@ -44,6 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     TextView mRegisterBtn;
     EditText mAccountNameEt;
     EditText mPasswordEt;
+    TextView mTitleTv;
 
     LoginPresenter loginPresenter;
 
@@ -51,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        NetWork.init();
+        NetWork.init(NET_TEST);
         initView();
         initPresenter();
 
@@ -62,10 +51,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mRegisterBtn = findViewById(R.id.btn_register_login);
         mAccountNameEt = findViewById(R.id.et_accountname_login);
         mPasswordEt = findViewById(R.id.et_password_login);
+        mTitleTv = findViewById(R.id.tv_title_login);
+        mTitleTv.setOnClickListener(this);
         mEnterBtn.setOnClickListener(this);
         mRegisterBtn.setOnClickListener(this);
-        mAccountNameEt.setText("Yricher");
-        mPasswordEt.setText("123456");
     }
 
     private void initPresenter() {
@@ -80,6 +69,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.btn_register_login:
                 startActivity(new Intent(this, RegisterActivity.class));
+                break;
+            case R.id.tv_title_login:
+                NetWork.init(NET_SHOW);
+                ToastUtil.show(this, "net change");
                 break;
             default:
                 break;

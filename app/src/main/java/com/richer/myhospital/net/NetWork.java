@@ -12,7 +12,7 @@ public class NetWork {
 
     private static Retrofit retrofit;
     public static Api api;
-    public static void init() {
+    public static void init(String net) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(logging)
@@ -20,7 +20,7 @@ public class NetWork {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.137.1:8080/")
+                .baseUrl(net)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(client)
